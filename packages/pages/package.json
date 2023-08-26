@@ -1,0 +1,23 @@
+{
+  "name": "@devsite/pages",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler -j pages dev public --compatibility-date=2023-08-14",
+    "gen": "drizzle-kit generate:sqlite",
+    "migrate": "wrangler -j d1 migrations apply devsite"
+  },
+  "devDependencies": {
+    "wrangler": "latest",
+    "@cloudflare/workers-types": "latest",
+    "drizzle-kit": "latest"
+  },
+  "dependencies": {
+    "@trpc/server": "latest",
+    "drizzle-orm": "latest",
+    "nanoid": "latest"
+  }
+}

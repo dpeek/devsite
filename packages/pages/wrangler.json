@@ -1,0 +1,11 @@
+{
+  "name": "devsite",
+  "account_id": "2b609a00c5274938a790ba00b5a9c873",
+  "d1_databases": [
+    {
+      "binding": "db",
+      "database_name": "devsite",
+      "database_id": "d624c1c4-0986-4a29-9654-43a0e3cef180"
+    }
+  ]
+}
