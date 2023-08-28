@@ -1,16 +1,3 @@
-import {
-  CodeIcon,
-  FontBoldIcon,
-  FontItalicIcon,
-  Link1Icon,
-  ListBulletIcon,
-  QuoteIcon,
-  ReloadIcon,
-  ResetIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-  ViewHorizontalIcon,
-} from "@radix-ui/react-icons";
 import type { ElementFormatType, LexicalEditor, NodeKey } from "lexical";
 
 import {
@@ -77,6 +64,30 @@ import {
 import { useCallback, useEffect, useState } from "react";
 const IS_APPLE = true;
 
+import {
+  AlignCenterIcon,
+  AlignJustifyIcon,
+  AlignLeftIcon,
+  AlignRightIcon,
+  BoldIcon,
+  CodeIcon,
+  Heading1Icon,
+  Heading2Icon,
+  Heading3Icon,
+  IndentIcon,
+  ItalicIcon,
+  LinkIcon,
+  ListIcon,
+  ListOrderedIcon,
+  MinusSquareIcon,
+  OutdentIcon,
+  PilcrowIcon,
+  QuoteIcon,
+  RedoIcon,
+  StrikethroughIcon,
+  UnderlineIcon,
+  UndoIcon,
+} from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -108,9 +119,6 @@ const blockTypeToBlockName = {
   h1: "Heading 1",
   h2: "Heading 2",
   h3: "Heading 3",
-  h4: "Heading 4",
-  h5: "Heading 5",
-  h6: "Heading 6",
   number: "Numbered List",
   paragraph: "Normal",
   quote: "Quote",
@@ -134,29 +142,6 @@ function getCodeLanguageOptions(): [string, string][] {
 }
 
 const CODE_LANGUAGE_OPTIONS = getCodeLanguageOptions();
-
-const FONT_FAMILY_OPTIONS: [string, string][] = [
-  ["Arial", "Arial"],
-  ["Courier New", "Courier New"],
-  ["Georgia", "Georgia"],
-  ["Times New Roman", "Times New Roman"],
-  ["Trebuchet MS", "Trebuchet MS"],
-  ["Verdana", "Verdana"],
-];
-
-const FONT_SIZE_OPTIONS: [string, string][] = [
-  ["10px", "10px"],
-  ["11px", "11px"],
-  ["12px", "12px"],
-  ["13px", "13px"],
-  ["14px", "14px"],
-  ["15px", "15px"],
-  ["16px", "16px"],
-  ["17px", "17px"],
-  ["18px", "18px"],
-  ["19px", "19px"],
-  ["20px", "20px"],
-];
 
 const ELEMENT_FORMAT_OPTIONS = {
   center: {
@@ -297,57 +282,57 @@ function BlockFormatDropDown({
           className={"item " + dropDownActiveClass(blockType === "paragraph")}
           onClick={formatParagraph}
         >
-          <i className="icon paragraph" />
-          <span className="text">Normal</span>
+          <PilcrowIcon className="mr-2 h-4 w-4" />
+          <span>Normal</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={"item " + dropDownActiveClass(blockType === "h1")}
           onClick={() => formatHeading("h1")}
         >
-          <i className="icon h1" />
-          <span className="text">Heading 1</span>
+          <Heading1Icon className="mr-2 h-4 w-4" />
+          <span>Heading 1</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={"item " + dropDownActiveClass(blockType === "h2")}
           onClick={() => formatHeading("h2")}
         >
-          <i className="icon h2" />
-          <span className="text">Heading 2</span>
+          <Heading2Icon className="mr-2 h-4 w-4" />
+          <span>Heading 2</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={"item " + dropDownActiveClass(blockType === "h3")}
           onClick={() => formatHeading("h3")}
         >
-          <i className="icon h3" />
-          <span className="text">Heading 3</span>
+          <Heading3Icon className="mr-2 h-4 w-4" />
+          <span>Heading 3</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={"item " + dropDownActiveClass(blockType === "bullet")}
           onClick={formatBulletList}
         >
-          <ListBulletIcon />
-          <span className="text">Bullet List</span>
+          <ListIcon className="mr-2 h-4 w-4" />
+          <span>Bullet List</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={"item " + dropDownActiveClass(blockType === "number")}
           onClick={formatNumberedList}
         >
-          <ListBulletIcon />
-          <span className="text">Numbered List</span>
+          <ListOrderedIcon className="mr-2 h-4 w-4" />
+          <span>Numbered List</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={"item " + dropDownActiveClass(blockType === "quote")}
           onClick={formatQuote}
         >
-          <QuoteIcon />
-          <span className="text">Quote</span>
+          <QuoteIcon className="mr-2 h-4 w-4" />
+          <span>Quote</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={"item " + dropDownActiveClass(blockType === "code")}
           onClick={formatCode}
         >
-          <CodeIcon />
-          <span className="text">Code Block</span>
+          <CodeIcon className="mr-2 h-4 w-4" />
+          <span>Code Block</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -378,61 +363,63 @@ function ElementFormatDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropDownItem
-          onClick={() => {
+        <DropdownMenuItem
+          onSelect={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
           }}
-          className="item"
         >
-          <i className="icon left-align" />
-          <span className="text">Left Align</span>
-        </DropDownItem>
-        <DropDownItem
-          onClick={() => {
+          <AlignLeftIcon className="mr-2 h-4 w-4" />
+          <span>Left Align</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
           }}
-          className="item"
         >
-          <i className="icon center-align" />
-          <span className="text">Center Align</span>
-        </DropDownItem>
-        <DropDownItem
-          onClick={() => {
+          <AlignCenterIcon className="mr-2 h-4 w-4" />
+          <span>Center Align</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
           }}
-          className="item"
         >
-          <i className="icon right-align" />
-          <span className="text">Right Align</span>
-        </DropDownItem>
-        <DropDownItem
-          onClick={() => {
+          <AlignRightIcon className="mr-2 h-4 w-4" />
+          <span>Right Align</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
           }}
-          className="item"
         >
-          <i className="icon justify-align" />
-          <span className="text">Justify Align</span>
-        </DropDownItem>
+          <AlignJustifyIcon className="mr-2 h-4 w-4" />
+          <span>Justify Align</span>
+        </DropdownMenuItem>
         <Separator />
-        <DropDownItem
-          onClick={() => {
+        <DropdownMenuItem
+          onSelect={() => {
             editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
           }}
-          className="item"
         >
-          <i className={"icon " + (isRTL ? "indent" : "outdent")} />
-          <span className="text">Outdent</span>
-        </DropDownItem>
-        <DropDownItem
-          onClick={() => {
+          {isRTL ? (
+            <IndentIcon className="mr-2 h-4 w-4" />
+          ) : (
+            <OutdentIcon className="mr-2 h-4 w-4" />
+          )}
+          <span>Outdent</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => {
             editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
           }}
-          className="item"
         >
-          <i className={"icon " + (isRTL ? "outdent" : "indent")} />
-          <span className="text">Indent</span>
-        </DropDownItem>
+          {isRTL ? (
+            <OutdentIcon className="mr-2 h-4 w-4" />
+          ) : (
+            <IndentIcon className="mr-2 h-4 w-4" />
+          )}
+          <span>Indent</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -730,7 +717,7 @@ export default function ToolbarPlugin(): JSX.Element {
         title={IS_APPLE ? "Undo (⌘Z)" : "Undo (Ctrl+Z)"}
         aria-label="Undo"
       >
-        <ResetIcon />
+        <UndoIcon className="h-4 w-4" />
       </Button>
       <Button
         variant="secondary"
@@ -741,7 +728,7 @@ export default function ToolbarPlugin(): JSX.Element {
         title={IS_APPLE ? "Redo (⌘Y)" : "Redo (Ctrl+Y)"}
         aria-label="Redo"
       >
-        <ReloadIcon />
+        <RedoIcon className="h-4 w-4" />
       </Button>
       <Separator orientation="vertical" />
       {blockType in blockTypeToBlockName && activeEditor === editor && (
@@ -765,15 +752,15 @@ export default function ToolbarPlugin(): JSX.Element {
           <DropdownMenuContent>
             {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
               return (
-                <DropDownItem
+                <DropdownMenuItem
+                  key={value}
                   className={`item ${dropDownActiveClass(
                     value === codeLanguage
                   )}`}
-                  onClick={() => onCodeLanguageSelect(value)}
-                  key={value}
+                  onSelect={() => onCodeLanguageSelect(value)}
                 >
-                  <span className="text">{name}</span>
-                </DropDownItem>
+                  <span>{name}</span>
+                </DropdownMenuItem>
               );
             })}
           </DropdownMenuContent>
@@ -791,7 +778,7 @@ export default function ToolbarPlugin(): JSX.Element {
               IS_APPLE ? "⌘B" : "Ctrl+B"
             }`}
           >
-            <FontBoldIcon />
+            <BoldIcon className="h-4 w-4" />
           </Toggle>
           <Toggle
             disabled={!isEditable}
@@ -804,7 +791,7 @@ export default function ToolbarPlugin(): JSX.Element {
               IS_APPLE ? "⌘I" : "Ctrl+I"
             }`}
           >
-            <FontItalicIcon />
+            <ItalicIcon className="h-4 w-4" />
           </Toggle>
           <Toggle
             disabled={!isEditable}
@@ -817,7 +804,7 @@ export default function ToolbarPlugin(): JSX.Element {
               IS_APPLE ? "⌘U" : "Ctrl+U"
             }`}
           >
-            <UnderlineIcon />
+            <UnderlineIcon className="h-4 w-4" />
           </Toggle>
           <Toggle
             disabled={!isEditable}
@@ -828,7 +815,7 @@ export default function ToolbarPlugin(): JSX.Element {
             title="Insert code block"
             aria-label="Insert code block"
           >
-            <CodeIcon />
+            <CodeIcon className="h-4 w-4" />
           </Toggle>
           <Button
             variant="secondary"
@@ -838,7 +825,7 @@ export default function ToolbarPlugin(): JSX.Element {
             aria-label="Insert link"
             title="Insert link"
           >
-            <Link1Icon />
+            <LinkIcon className="h-4 w-4" />
           </Button>
           <DropdownColorPicker
             disabled={!isEditable}
@@ -877,7 +864,7 @@ export default function ToolbarPlugin(): JSX.Element {
               aria-label="Format text with a strikethrough"
             >
               <StrikethroughIcon />
-              <span className="text">Strikethrough</span>
+              <span>Strikethrough</span>
             </DropDownItem>
             <DropDownItem
               onClick={() => {
@@ -888,7 +875,7 @@ export default function ToolbarPlugin(): JSX.Element {
               aria-label="Format text with a subscript"
             >
               <i className="icon subscript" />
-              <span className="text">Subscript</span>
+              <span>Subscript</span>
             </DropDownItem>
             <DropDownItem
               onClick={() => {
@@ -902,7 +889,7 @@ export default function ToolbarPlugin(): JSX.Element {
               aria-label="Format text with a superscript"
             >
               <i className="icon superscript" />
-              <span className="text">Superscript</span>
+              <span>Superscript</span>
             </DropDownItem>
             <DropDownItem
               onClick={clearFormatting}
@@ -911,7 +898,7 @@ export default function ToolbarPlugin(): JSX.Element {
               aria-label="Clear all text formatting"
             >
               <i className="icon clear" />
-              <span className="text">Clear Formatting</span>
+              <span>Clear Formatting</span>
             </DropDownItem>
           </DropDown>
           <Separator />
@@ -930,7 +917,7 @@ export default function ToolbarPlugin(): JSX.Element {
                   }}
                   className="item"
                 >
-                  <span className="text">TODO</span>
+                  <span>TODO</span>
                 </DropDownItem>
               </DropDown>
               <Separator />
@@ -952,8 +939,8 @@ export default function ToolbarPlugin(): JSX.Element {
               }}
               className="item"
             >
-              <ViewHorizontalIcon />
-              <span className="text">Horizontal Rule</span>
+              <MinusSquareIcon />
+              <span>Horizontal Rule</span>
             </DropDownItem>
             {/* <DropDownItem
               onClick={() => {
@@ -967,7 +954,7 @@ export default function ToolbarPlugin(): JSX.Element {
               className="item"
             >
               <i className="icon image" />
-              <span className="text">Image</span>
+              <span >Image</span>
             </DropDownItem>
             <DropDownItem
               onClick={() => {
@@ -981,7 +968,7 @@ export default function ToolbarPlugin(): JSX.Element {
               className="item"
             >
               <i className="icon image" />
-              <span className="text">Inline Image</span>
+              <span >Inline Image</span>
             </DropDownItem>
             {EmbedConfigs.map((embedConfig) => (
               <DropDownItem
@@ -995,7 +982,7 @@ export default function ToolbarPlugin(): JSX.Element {
                 className="item"
               >
                 {embedConfig.icon}
-                <span className="text">{embedConfig.contentName}</span>
+                <span >{embedConfig.contentName}</span>
               </DropDownItem>
             ))} */}
           </DropDown>

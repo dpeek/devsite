@@ -1,11 +1,11 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "71da8668-2ecf-4122-b07d-cb86b07c899c",
+  "id": "a17eab50-ac87-46ab-9b87-8433b8bd2647",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "posts": {
-      "name": "posts",
+    "pages": {
+      "name": "pages",
       "columns": {
         "id": {
           "name": "id",
@@ -28,8 +28,15 @@
           "notNull": true,
           "autoincrement": false
         },
-        "slug": {
-          "name": "slug",
+        "posted_at": {
+          "name": "posted_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "path": {
+          "name": "path",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -51,10 +58,10 @@
         }
       },
       "indexes": {
-        "posts_slug_unique": {
-          "name": "posts_slug_unique",
+        "pages_path_unique": {
+          "name": "pages_path_unique",
           "columns": [
-            "slug"
+            "path"
           ],
           "isUnique": true
         }

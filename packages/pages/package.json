@@ -6,18 +6,21 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "dev": "wrangler -j pages dev public --compatibility-date=2023-08-14",
+    "wrangler": "wrangler -j",
+    "worker": "bun build src/worker.ts --outfile public/_worker.js --watch",
+    "dev": "wrangler -j pages dev public --compatibility-date=2023-08-14 --d1=DB",
     "gen": "drizzle-kit generate:sqlite",
-    "migrate": "wrangler -j d1 migrations apply devsite"
+    "migrate": "wrangler -j d1 migrations apply devsite --local"
   },
   "devDependencies": {
-    "wrangler": "latest",
     "@cloudflare/workers-types": "latest",
-    "drizzle-kit": "latest"
+    "drizzle-kit": "latest",
+    "wrangler": "latest"
   },
   "dependencies": {
     "@trpc/server": "latest",
     "drizzle-orm": "latest",
-    "nanoid": "latest"
+    "nanoid": "latest",
+    "zod": "^3.22.2"
   }
 }

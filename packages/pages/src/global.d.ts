@@ -1,3 +1,7 @@
 type Env = {
-  db: D1Database;
+  DB: D1Database;
+  ASSETS: Fetcher;
 };
+
+type QueueMessage = {};
+type HostMetadata = {};

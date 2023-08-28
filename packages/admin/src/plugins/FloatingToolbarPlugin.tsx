@@ -15,13 +15,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import {
+  BoldIcon,
   CodeIcon,
-  FontBoldIcon,
-  FontItalicIcon,
-  Link1Icon,
+  ItalicIcon,
+  LinkIcon,
   StrikethroughIcon,
+  SubscriptIcon,
+  SuperscriptIcon,
   UnderlineIcon,
-} from "@radix-ui/react-icons";
+} from "lucide-react";
 import { Toggle } from "~/components/ui/toggle";
 import getDOMRangeRect from "../utils/getDOMRangeRect";
 import getSelectedNode from "../utils/getSelectedNode";
@@ -179,7 +181,7 @@ function TextFormatFloatingToolbar({
             }}
             aria-label="Format text as bold"
           >
-            <FontBoldIcon />
+            <BoldIcon className="w-4 h-4" />
           </Toggle>
           <Toggle
             pressed={isItalic}
@@ -189,7 +191,7 @@ function TextFormatFloatingToolbar({
             className={"popup-item spaced " + (isItalic ? "active" : "")}
             aria-label="Format text as italics"
           >
-            <FontItalicIcon />
+            <ItalicIcon className="w-4 h-4" />
           </Toggle>
           <Toggle
             pressed={isUnderline}
@@ -198,7 +200,7 @@ function TextFormatFloatingToolbar({
             }}
             aria-label="Format text to underlined"
           >
-            <UnderlineIcon />
+            <UnderlineIcon className="w-4 h-4" />
           </Toggle>
           <Toggle
             pressed={isStrikethrough}
@@ -207,7 +209,7 @@ function TextFormatFloatingToolbar({
             }}
             aria-label="Format text with a strikethrough"
           >
-            <StrikethroughIcon />
+            <StrikethroughIcon className="w-4 h-4" />
           </Toggle>
           <Toggle
             pressed={isSubscript}
@@ -218,7 +220,7 @@ function TextFormatFloatingToolbar({
             title="Subscript"
             aria-label="Format Subscript"
           >
-            <i className="format subscript" />
+            <SubscriptIcon className="w-4 h-4" />
           </Toggle>
           <Toggle
             pressed={isSuperscript}
@@ -228,7 +230,7 @@ function TextFormatFloatingToolbar({
             title="Superscript"
             aria-label="Format Superscript"
           >
-            <i className="format superscript" />
+            <SuperscriptIcon className="w-4 h-4" />
           </Toggle>
           <Toggle
             pressed={isCode}
@@ -237,14 +239,14 @@ function TextFormatFloatingToolbar({
             }}
             aria-label="Insert code block"
           >
-            <CodeIcon />
+            <CodeIcon className="w-4 h-4" />
           </Toggle>
           <Toggle
             pressed={isLink}
             onPressedChange={insertLink}
             aria-label="Insert link"
           >
-            <Link1Icon />
+            <LinkIcon className="w-4 h-4" />
           </Toggle>
         </>
       )}
@@ -345,7 +347,7 @@ function useFloatingTextFormatToolbar(
       })
     );
   }, [editor, updatePopup]);
-  console.log(isText, isLink);
+
   if (!isText || isLink) {
     return null;
   }

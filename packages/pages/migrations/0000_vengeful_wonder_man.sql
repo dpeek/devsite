@@ -1,10 +1,11 @@
-CREATE TABLE `posts` (
+CREATE TABLE `pages` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
-	`slug` text NOT NULL,
+	`posted_at` integer NOT NULL,
+	`path` text NOT NULL,
 	`title` text NOT NULL,
 	`content` text NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);
+CREATE UNIQUE INDEX `pages_path_unique` ON `pages` (`path`);
