@@ -85,23 +85,24 @@ import {
   QuoteIcon,
   RedoIcon,
   StrikethroughIcon,
+  SubscriptIcon,
+  SuperscriptIcon,
   UnderlineIcon,
   UndoIcon,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Separator } from "~/components/ui/separator";
 import { Toggle } from "~/components/ui/toggle";
-import DropDown, { DropDownItem } from "../ui/DropDown";
-import DropdownColorPicker from "../ui/DropdownColorPicker";
 import getSelectedNode from "../utils/getSelectedNode";
 import sanitizeUrl from "../utils/sanitizeUrl";
-import useModal from "../utils/useModal";
+
 // import { sanitizeUrl } from "../../utils/url";
 // import { EmbedConfigs } from "./AutoEmbedPlugin";
 // import {
@@ -278,62 +279,62 @@ function BlockFormatDropDown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "paragraph")}
-          onClick={formatParagraph}
+        <DropdownMenuCheckboxItem
+          checked={blockType === "paragraph"}
+          onCheckedChange={formatParagraph}
         >
           <PilcrowIcon className="mr-2 h-4 w-4" />
           <span>Normal</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "h1")}
-          onClick={() => formatHeading("h1")}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={blockType === "h1"}
+          onCheckedChange={() => formatHeading("h1")}
         >
           <Heading1Icon className="mr-2 h-4 w-4" />
           <span>Heading 1</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "h2")}
-          onClick={() => formatHeading("h2")}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={blockType === "h2"}
+          onCheckedChange={() => formatHeading("h2")}
         >
           <Heading2Icon className="mr-2 h-4 w-4" />
           <span>Heading 2</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "h3")}
-          onClick={() => formatHeading("h3")}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={blockType === "h3"}
+          onCheckedChange={() => formatHeading("h3")}
         >
           <Heading3Icon className="mr-2 h-4 w-4" />
           <span>Heading 3</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "bullet")}
-          onClick={formatBulletList}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={blockType === "bullet"}
+          onCheckedChange={formatBulletList}
         >
           <ListIcon className="mr-2 h-4 w-4" />
           <span>Bullet List</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "number")}
-          onClick={formatNumberedList}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={blockType === "number"}
+          onCheckedChange={formatNumberedList}
         >
           <ListOrderedIcon className="mr-2 h-4 w-4" />
           <span>Numbered List</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "quote")}
-          onClick={formatQuote}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={blockType === "quote"}
+          onCheckedChange={formatQuote}
         >
           <QuoteIcon className="mr-2 h-4 w-4" />
           <span>Quote</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={"item " + dropDownActiveClass(blockType === "code")}
-          onClick={formatCode}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={blockType === "code"}
+          onCheckedChange={formatCode}
         >
           <CodeIcon className="mr-2 h-4 w-4" />
           <span>Code Block</span>
-        </DropdownMenuItem>
+        </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -395,7 +396,7 @@ function ElementFormatDropdown({
           <AlignJustifyIcon className="mr-2 h-4 w-4" />
           <span>Justify Align</span>
         </DropdownMenuItem>
-        <Separator />
+        <Separator orientation="vertical" />
         <DropdownMenuItem
           onSelect={() => {
             editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
@@ -450,7 +451,7 @@ export default function ToolbarPlugin(): JSX.Element {
   const [isCode, setIsCode] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [modal, showModal] = useModal();
+  // const [modal, showModal] = useModal();
   const [isRTL, setIsRTL] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState<string>("");
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
@@ -752,15 +753,13 @@ export default function ToolbarPlugin(): JSX.Element {
           <DropdownMenuContent>
             {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
               return (
-                <DropdownMenuItem
+                <DropdownMenuCheckboxItem
                   key={value}
-                  className={`item ${dropDownActiveClass(
-                    value === codeLanguage
-                  )}`}
-                  onSelect={() => onCodeLanguageSelect(value)}
+                  checked={value === codeLanguage}
+                  onCheckedChange={() => onCodeLanguageSelect(value)}
                 >
                   <span>{name}</span>
-                </DropdownMenuItem>
+                </DropdownMenuCheckboxItem>
               );
             })}
           </DropdownMenuContent>
@@ -817,19 +816,17 @@ export default function ToolbarPlugin(): JSX.Element {
           >
             <CodeIcon className="h-4 w-4" />
           </Toggle>
-          <Button
-            variant="secondary"
+          <Toggle
             disabled={!isEditable}
-            onClick={insertLink}
-            className={"toolbar-item spaced " + (isLink ? "active" : "")}
+            pressed={isLink}
+            onPressedChange={insertLink}
             aria-label="Insert link"
             title="Insert link"
           >
             <LinkIcon className="h-4 w-4" />
-          </Button>
-          <DropdownColorPicker
+          </Toggle>
+          {/* <DropdownColorPicker
             disabled={!isEditable}
-            buttonClassName="toolbar-item color-picker"
             buttonAriaLabel="Formatting text color"
             buttonIconClassName="icon font-color"
             color={fontColor}
@@ -838,111 +835,123 @@ export default function ToolbarPlugin(): JSX.Element {
           />
           <DropdownColorPicker
             disabled={!isEditable}
-            buttonClassName="toolbar-item color-picker"
             buttonAriaLabel="Formatting background color"
             buttonIconClassName="icon bg-color"
             color={bgColor}
             onChange={onBgColorSelect}
             title="bg color"
-          />
-          <DropDown
-            disabled={!isEditable}
-            buttonClassName="toolbar-item spaced"
-            buttonLabel=""
-            buttonAriaLabel="Formatting options for additional text styles"
-            buttonIconClassName="icon dropdown-more"
-          >
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(
-                  FORMAT_TEXT_COMMAND,
-                  "strikethrough"
-                );
-              }}
-              className={"item " + dropDownActiveClass(isStrikethrough)}
-              title="Strikethrough"
-              aria-label="Format text with a strikethrough"
-            >
-              <StrikethroughIcon />
-              <span>Strikethrough</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
-              }}
-              className={"item " + dropDownActiveClass(isSubscript)}
-              title="Subscript"
-              aria-label="Format text with a subscript"
-            >
-              <i className="icon subscript" />
-              <span>Subscript</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(
-                  FORMAT_TEXT_COMMAND,
-                  "superscript"
-                );
-              }}
-              className={"item " + dropDownActiveClass(isSuperscript)}
-              title="Superscript"
-              aria-label="Format text with a superscript"
-            >
-              <i className="icon superscript" />
-              <span>Superscript</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={clearFormatting}
-              className="item"
-              title="Clear text formatting"
-              aria-label="Clear all text formatting"
-            >
-              <i className="icon clear" />
-              <span>Clear Formatting</span>
-            </DropDownItem>
-          </DropDown>
-          <Separator />
+          /> */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                disabled={!isEditable}
+                aria-label="Formatting options for additional text styles"
+              >
+                Additional
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                onSelect={() => {
+                  activeEditor.dispatchCommand(
+                    FORMAT_TEXT_COMMAND,
+                    "strikethrough"
+                  );
+                }}
+                className={"item " + dropDownActiveClass(isStrikethrough)}
+                title="Strikethrough"
+                aria-label="Format text with a strikethrough"
+              >
+                <StrikethroughIcon />
+                <span>Strikethrough</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  activeEditor.dispatchCommand(
+                    FORMAT_TEXT_COMMAND,
+                    "subscript"
+                  );
+                }}
+                className={"item " + dropDownActiveClass(isSubscript)}
+                title="Subscript"
+                aria-label="Format text with a subscript"
+              >
+                <SubscriptIcon />
+                <span>Subscript</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  activeEditor.dispatchCommand(
+                    FORMAT_TEXT_COMMAND,
+                    "superscript"
+                  );
+                }}
+                className={"item " + dropDownActiveClass(isSuperscript)}
+                title="Superscript"
+                aria-label="Format text with a superscript"
+              >
+                <SuperscriptIcon />
+                <span>Superscript</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={clearFormatting}
+                className="item"
+                title="Clear text formatting"
+                aria-label="Clear all text formatting"
+              >
+                <i className="icon clear" />
+                <span>Clear Formatting</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Separator orientation="vertical" />
           {rootType === "table" && (
             <>
-              <DropDown
-                disabled={!isEditable}
-                buttonClassName="toolbar-item spaced"
-                buttonLabel="Table"
-                buttonAriaLabel="Open table toolkit"
-                buttonIconClassName="icon table secondary"
-              >
-                <DropDownItem
-                  onClick={() => {
-                    /**/
-                  }}
-                  className="item"
-                >
-                  <span>TODO</span>
-                </DropDownItem>
-              </DropDown>
-              <Separator />
+              <DropdownMenu>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Button
+                      disabled={!isEditable}
+                      aria-label="Open table toolkit"
+                    >
+                      Table
+                    </Button>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onSelect={() => {
+                      /**/
+                    }}
+                    className="item"
+                  >
+                    <span>TODO</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Separator orientation="vertical" />
             </>
           )}
-          <DropDown
-            disabled={!isEditable}
-            buttonClassName="toolbar-item spaced"
-            buttonLabel="Insert"
-            buttonAriaLabel="Insert specialized editor node"
-            buttonIconClassName="icon plus"
-          >
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(
-                  INSERT_HORIZONTAL_RULE_COMMAND,
-                  undefined
-                );
-              }}
-              className="item"
-            >
-              <MinusSquareIcon />
-              <span>Horizontal Rule</span>
-            </DropDownItem>
-            {/* <DropDownItem
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                disabled={!isEditable}
+                aria-label="Insert specialized editor node"
+              >
+                Insert
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                onSelect={() => {
+                  activeEditor.dispatchCommand(
+                    INSERT_HORIZONTAL_RULE_COMMAND,
+                    undefined
+                  );
+                }}
+              >
+                <MinusSquareIcon />
+                <span>Horizontal Rule</span>
+              </DropdownMenuItem>
+              {/* <DropDownItem
               onClick={() => {
                 showModal("Insert Image", (onClose) => (
                   <InsertImageDialog
@@ -951,7 +960,6 @@ export default function ToolbarPlugin(): JSX.Element {
                   />
                 ));
               }}
-              className="item"
             >
               <i className="icon image" />
               <span >Image</span>
@@ -965,7 +973,6 @@ export default function ToolbarPlugin(): JSX.Element {
                   />
                 ));
               }}
-              className="item"
             >
               <i className="icon image" />
               <span >Inline Image</span>
@@ -979,24 +986,22 @@ export default function ToolbarPlugin(): JSX.Element {
                     embedConfig.type
                   );
                 }}
-                className="item"
               >
                 {embedConfig.icon}
                 <span >{embedConfig.contentName}</span>
               </DropDownItem>
             ))} */}
-          </DropDown>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </>
       )}
-      <Separator />
+      <Separator orientation="vertical" />
       <ElementFormatDropdown
         disabled={!isEditable}
         value={elementFormat}
         editor={editor}
         isRTL={isRTL}
       />
-
-      {modal}
     </div>
   );
 }

@@ -70,22 +70,24 @@ export default function Editor() {
   );
 
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <RichTextPlugin
-        contentEditable={
-          <ContentEditable className="min-h-full py-8 px-4 prose" />
-        }
-        placeholder={placeholder}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <ToolbarPlugin />
-      <HistoryPlugin />
-      <AutoFocusPlugin />
-      <CodeHighlightPlugin />
-      <MarkdownShortcutPlugin />
-      <ListPlugin />
-      <FloatingToolbarPlugin />
-      <StoragePlugin />
-    </LexicalComposer>
+    <div className="flex-1 bg-red-600">
+      <LexicalComposer initialConfig={initialConfig}>
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable className="min-h-full py-8 px-4 prose" />
+          }
+          placeholder={placeholder}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <ToolbarPlugin />
+        <HistoryPlugin />
+        <AutoFocusPlugin />
+        <CodeHighlightPlugin />
+        <MarkdownShortcutPlugin />
+        <ListPlugin />
+        <FloatingToolbarPlugin />
+        <StoragePlugin />
+      </LexicalComposer>
+    </div>
   );
 }

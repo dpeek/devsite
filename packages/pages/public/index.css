@@ -1114,10 +1114,6 @@ body {
   display: table;
 }
 
-.contents {
-  display: contents;
-}
-
 .hidden {
   display: none;
 }
@@ -1186,8 +1182,16 @@ body {
   width: 100%;
 }
 
+.w-28 {
+  width: 7rem;
+}
+
 .min-w-\[8rem\] {
   min-width: 8rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .shrink-0 {
@@ -1212,6 +1216,10 @@ body {
   resize: both;
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -1228,12 +1236,12 @@ body {
   gap: 0.25rem;
 }
 
-.gap-4 {
-  gap: 1rem;
-}
-
 .gap-2 {
   gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .overflow-hidden {
@@ -1252,6 +1260,10 @@ body {
   border-radius: 0.25rem;
 }
 
+.rounded-full {
+  border-radius: 9999px;
+}
+
 .rounded-lg {
   border-radius: var(--radius);
 }
@@ -1262,10 +1274,6 @@ body {
 
 .rounded-sm {
   border-radius: calc(var(--radius) - 4px);
-}
-
-.rounded-full {
-  border-radius: 9999px;
 }
 
 .border {
@@ -1312,6 +1320,11 @@ body {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
 .fill-current {
@@ -1647,16 +1660,8 @@ body,
 }
 
 @media print {
-  .print\:visible {
-    visibility: visible;
-  }
-
   .print\:block {
     display: block;
-  }
-
-  .print\:hidden {
-    display: none;
   }
 
   .print\:flex-col {

@@ -10,6 +10,7 @@ import {
   TwitterIcon,
 } from "lucide-react";
 import { useState } from "react";
+import Editor from "./Editor";
 import { trpc } from "./trpc";
 
 const API_URL = "http://127.0.0.1:8788";
@@ -67,28 +68,43 @@ function getConfig(href: string) {
   };
 }
 
-function Link({ href }: { href: string }) {}
+function Links() {
+  return (
+    <div className="flex print:flex-col">
+      {links.map((href, index) => {
+        const config = getConfig(href);
+        return (
+          <a
+            key={index}
+            href={href}
+            title={config.title}
+            className="flex gap-2 p-2 hover:bg-slate-200 rounded-full transition-all"
+          >
+            {config.icon}
+            <span className="hidden print:block">{href}</span>
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
+function Sidebar() {
+  const pages = trpc.pages.list.useQuery();
+  return (
+    <div className="bg-slate-200 w-28">
+      {pages.data?.map((page) => (
+        <div key={page.id}>{page.title}</div>
+      ))}
+    </div>
+  );
+}
 
 function RootLayout() {
   return (
-    <div className="flex flex-col gap-4 relative h-full">
-      <div className="flex print:flex-col">
-        {links.map((href, index) => {
-          const config = getConfig(href);
-          return (
-            <a
-              key={index}
-              href={href}
-              title={config.title}
-              className="flex gap-2 p-2 hover:bg-slate-200 rounded-full transition-all"
-            >
-              {config.icon}
-              <span className="hidden print:block">{href}</span>
-            </a>
-          );
-        })}
-      </div>
-      {/* <Editor /> */}
+    <div className="flex flex-row w-full h-full">
+      <Sidebar />
+      <Editor />
     </div>
   );
 }
